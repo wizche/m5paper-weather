@@ -109,10 +109,47 @@ void WeatherDisplay::DrawBattery(int x, int y)
    }
 }
 
+float getBtcValue()
+{
+   HTTPClient http;
+   WiFiClient client;
+   DynamicJsonDocument doc(35 * 1024);
+   String uri = "/v1/bpi/currentprice.json";
+   client.stop();
+   http.begin(client, "api.coindesk.com", 80, uri);
+
+   int httpCode = http.GET();
+   Serial.printf("Read %d bytes\n", http.getSize());
+
+   if (httpCode != HTTP_CODE_OK)
+   {
+      Serial.printf("Coindesk failed, error: %s\n", http.errorToString(httpCode).c_str());
+      client.stop();
+      http.end();
+      return 0.0;
+   }
+   else
+   {
+      DeserializationError error = deserializeJson(doc, http.getStream());
+
+      if (error)
+      {
+         Serial.print(F("deserializeJson() failed: "));
+         Serial.println(error.c_str());
+         return 0.0;
+      }
+      else
+      {
+         return doc.as<JsonObject>()["bpi"]["USD"]["rate_float"];
+      }
+   }
+}
+
 /* Draw a the head with version, city, rssi and battery */
 void WeatherDisplay::DrawHead()
 {
-   canvas.drawString(VERSION, 20, 10);
+
+   canvas.drawString("BTC/USD " + String(getBtcValue()), 20, 10);
    canvas.drawCentreString(CITY_NAME, maxX / 2, 10, 1);
    canvas.drawString(WifiGetRssiAsQuality(myData.wifiRSSI) + "%", maxX - 200, 10);
    DrawRSSI(maxX - 155, 25);
