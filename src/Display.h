@@ -372,8 +372,8 @@ void WeatherDisplay::DrawDaily(int x, int y, int dx, int dy, Weather &weather, i
 
    canvas.setTextSize(2);
 
-   char *weekdays[] = {"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-   char *wd = weekdays[weekday(time)];
+   char const *weekdays[] = {"", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+   const char *wd = weekdays[weekday(time)];
    canvas.drawCentreString(wd, x + dx / 2, y + 10, 1);
    canvas.drawCentreString(String(temp) + " C", x + dx / 2, y + 30, 1);
    // canvas.drawCentreString(main,                        x + dx / 2, y + 70, 1);
@@ -434,7 +434,6 @@ void WeatherDisplay::DrawGraph(int x, int y, int dx, int dy, String title, int x
    int graphDX = dx - textWidth - 20;
    int graphDY = dy - 35 - 20;
    float xStep = graphDX / (xMax - xMin);
-   float yStep = graphDY / (yMax - yMin);
    int iOldX = 0;
    int iOldY = 0;
 
@@ -527,6 +526,7 @@ void WeatherDisplay::Show()
    DrawGraph(247, 408, 232, 122, "Rain (mm)", 0, 7, 0, myData.weather.maxRain, myData.weather.forecastRain);
    DrawGraph(479, 408, 232, 122, "Humidity (%)", 0, 7, 0, 100, myData.weather.forecastHumidity);
    DrawGraph(711, 408, 232, 122, "Wind (m/s)", 0, 7, 0, 10, myData.weather.forecastWind);
+   DrawGraph(711, 408, 232, 122, "Wind (m/s)", 0, 7, 0, 10, myData.weather.forecastWindGust);
 
    canvas.pushCanvas(0, 0, UPDATE_MODE_GC16);
    delay(1000);

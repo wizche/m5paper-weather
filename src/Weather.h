@@ -53,7 +53,8 @@ public:
    float  forecastMinTemp[MAX_FORECAST];   //!< min temperature
    float  forecastRain[MAX_FORECAST];      //!< max rain in mm
    float  forecastHumidity[MAX_FORECAST];  //!< humidity of the dayly forecast
-   float  forecastWind[MAX_FORECAST];  //!< air pressure
+   float  forecastWind[MAX_FORECAST];  //!< wind
+   float  forecastWindGust[MAX_FORECAST];  //!< wind gusts
 
 protected:
    /* Convert UTC time to local time */
@@ -128,6 +129,7 @@ protected:
             forecastRain[i]     = daily_list[i]["rain"].as<float>();
             forecastHumidity[i] = daily_list[i]["humidity"].as<float>();
             forecastWind[i] = daily_list[i]["wind_speed"].as<float>();
+            forecastWindGust[i] = daily_list[i]["wind_gust"].as<float>();
             if (forecastRain[i] > maxRain) {
                maxRain = forecastRain[i];
             }
@@ -166,6 +168,7 @@ public:
       memset(forecastRain,     0, sizeof(forecastRain));
       memset(forecastHumidity, 0, sizeof(forecastHumidity));
       memset(forecastWind, 0, sizeof(forecastWind));
+      memset(forecastWindGust, 0, sizeof(forecastWindGust));
    }
 
    /* Start the request and the filling. */
