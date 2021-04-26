@@ -201,7 +201,7 @@ void WeatherDisplay::DrawSunInfo(int x, int y, int dx, int dy)
  */
 void WeatherDisplay::DrawMoon(int x, int y, int dd, int mm, int yy)
 {
-   const int diameter = 45;
+   const int diameter = 65;
    const int number_of_lines = 90;
    double Phase = NormalizedMoonPhase(dd, mm, yy);
 
@@ -233,8 +233,8 @@ void WeatherDisplay::DrawMoon(int x, int y, int dd, int mm, int yy)
       double pW4x = (Xpos2 + number_of_lines) / number_of_lines * diameter + x;
       double pW4y = (Ypos + number_of_lines) / number_of_lines * diameter + y;
 
-      canvas.drawLine(pW1x, pW1y, pW2x, pW2y, M5EPD_Canvas::G15);
-      canvas.drawLine(pW3x, pW3y, pW4x, pW4y, M5EPD_Canvas::G15);
+      canvas.drawLine(pW1x, pW1y, pW2x, pW2y, M5EPD_Canvas::G0);
+      canvas.drawLine(pW3x, pW3y, pW4x, pW4y, M5EPD_Canvas::G0);
    }
    canvas.drawCircle(x + diameter - 1, y + diameter, diameter / 2, M5EPD_Canvas::G15);
 }
@@ -257,7 +257,7 @@ void WeatherDisplay::DrawMoonInfo(int x, int y, int dx, int dy)
    DrawIcon(x + 30, y + 105, (uint16_t *)MOONSET64x64);
    canvas.drawString(getHourMinString(myData.moonSet), x + 110, y + 130, 1);
 
-   DrawMoon(x + dx / 2 - 45, y + 160, date_struct.day, date_struct.mon, date_struct.year);
+   DrawMoon(x + dx / 2 - 45, y + 140, date_struct.day, date_struct.mon, date_struct.year);
 }
 
 /* Draw the in the wind section
