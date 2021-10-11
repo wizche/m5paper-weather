@@ -21,6 +21,7 @@
   */
 
 #include <M5EPD.h>
+#include <time.h>
 // Rename and fill ConfigTemplate.h
 #include "Config.h"
 #include "Data.h"
@@ -30,7 +31,6 @@
 #include "EPDWifi.h"
 #include "Moon.h"
 #include "SHT30.h"
-#include "Time.h"
 #include "Utils.h"
 #include "Weather.h"
 

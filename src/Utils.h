@@ -20,7 +20,7 @@
   * A collection of helper functions.
   */
 #pragma once
-#include <Time.h>
+#include <time.h>
 #include <TimeLib.h> 
 
 /* Convert the RTC date time to DD.MM.YYYY HH:MM:SS */
