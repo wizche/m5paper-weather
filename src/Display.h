@@ -51,6 +51,7 @@ protected:
    void DrawM5PaperInfo(int x, int y, int dx, int dy);
 
    void DrawDaily(int x, int y, int dx, int dy, Weather &weather, int index);
+   void DrawHourly(int x, int y, int dx, int dy, Weather &weather, int index);
 
    void DrawGraph(int x, int y, int dx, int dy, String title, int xMin, int xMax, int yMin, int yMax, float values[]);
 
@@ -423,6 +424,45 @@ void WeatherDisplay::DrawDaily(int x, int y, int dx, int dy, Weather &weather, i
       DrawIcon(iconX, iconY, (uint16_t *)image_data_unknown, 64, 64, true);
 }
 
+/* Draw one hourly weather information */
+void WeatherDisplay::DrawHourly(int x, int y, int dx, int dy, Weather &weather, int index)
+{
+   time_t time = weather.hourlyTime[index];
+   int    temp = weather.hourlyMaxTemp[index];
+   String main = weather.hourlyMain[index];
+   String icon = weather.hourlyIcon[index];
+   
+   canvas.setTextSize(2);
+   canvas.drawCentreString(getHourString(time) + ":00", x + dx / 2, y + 10, 1);
+   canvas.drawCentreString(String(temp) + " C",         x + dx / 2, y + 30, 1);
+   // canvas.drawCentreString(main,                        x + dx / 2, y + 70, 1);
+
+   int iconX = x + dx / 2 - 32;
+   int iconY = y + 50;
+   
+   // DrawIcon(x + dx / 2 - 32, y + 50, (uint16_t *) image_data_03d, 64, 64, true);
+   
+        if (icon == "01d") DrawIcon(iconX, iconY, (uint16_t *) image_data_01d, 64, 64, true);
+   else if (icon == "01n") DrawIcon(iconX, iconY, (uint16_t *) image_data_03n, 64, 64, true);
+   else if (icon == "02d") DrawIcon(iconX, iconY, (uint16_t *) image_data_02d, 64, 64, true);
+   else if (icon == "02n") DrawIcon(iconX, iconY, (uint16_t *) image_data_02n, 64, 64, true);
+   else if (icon == "03d") DrawIcon(iconX, iconY, (uint16_t *) image_data_03d, 64, 64, true);
+   else if (icon == "03n") DrawIcon(iconX, iconY, (uint16_t *) image_data_03n, 64, 64, true);
+   else if (icon == "04d") DrawIcon(iconX, iconY, (uint16_t *) image_data_04d, 64, 64, true);
+   else if (icon == "04n") DrawIcon(iconX, iconY, (uint16_t *) image_data_03n, 64, 64, true);
+   else if (icon == "09d") DrawIcon(iconX, iconY, (uint16_t *) image_data_09d, 64, 64, true);
+   else if (icon == "09n") DrawIcon(iconX, iconY, (uint16_t *) image_data_09n, 64, 64, true);
+   else if (icon == "10d") DrawIcon(iconX, iconY, (uint16_t *) image_data_10d, 64, 64, true);
+   else if (icon == "10n") DrawIcon(iconX, iconY, (uint16_t *) image_data_03n, 64, 64, true);
+   else if (icon == "11d") DrawIcon(iconX, iconY, (uint16_t *) image_data_11d, 64, 64, true);
+   else if (icon == "11n") DrawIcon(iconX, iconY, (uint16_t *) image_data_11n, 64, 64, true);
+   else if (icon == "13d") DrawIcon(iconX, iconY, (uint16_t *) image_data_13d, 64, 64, true);
+   else if (icon == "13n") DrawIcon(iconX, iconY, (uint16_t *) image_data_13n, 64, 64, true);
+   else if (icon == "50d") DrawIcon(iconX, iconY, (uint16_t *) image_data_50d, 64, 64, true);
+   else if (icon == "50n") DrawIcon(iconX, iconY, (uint16_t *) image_data_50n, 64, 64, true);
+   else DrawIcon(iconX, iconY, (uint16_t *) image_data_unknown, 64, 64, true);
+}
+
 /* Draw a graph with x- and y-axis and values */
 void WeatherDisplay::DrawGraph(int x, int y, int dx, int dy, String title, int xMin, int xMax, int yMin, int yMax, float values[])
 {
@@ -517,7 +557,11 @@ void WeatherDisplay::Show()
    for (int x = 15, i = 0; x <= 930; x += 116, i += 1)
    {
       canvas.drawLine(x, 286, x, 408, M5EPD_Canvas::G15);
+      #ifdef DAILY_DISPLAY
       DrawDaily(x, 286, 116, 122, myData.weather, i);
+      #else
+      DrawHourly(x, 286, 116, 122, myData.weather, i);
+      #endif
    }
 
    canvas.drawRect(15, 408, maxX - 30, 122, M5EPD_Canvas::G15);
