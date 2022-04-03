@@ -48,6 +48,11 @@ public:
    String dailyMain[MAX_HOURLY];          //!< description of the hourly forecast
    String dailyIcon[MAX_HOURLY];          //!< openweathermap icon of the forecast weather
 
+   time_t hourlyTime[MAX_HOURLY];          //!< timestamp of the hourly forecast
+   float  hourlyMaxTemp[MAX_HOURLY];       //!< max temperature forecast
+   String hourlyMain[MAX_HOURLY];          //!< description of the hourly forecast
+   String hourlyIcon[MAX_HOURLY];          //!< openweathermap icon of the forecast weather
+
    int    maxRain;                         //!< maximum rain in mm of the day forecast
    float  forecastMaxTemp[MAX_FORECAST];   //!< max temperature
    float  forecastMinTemp[MAX_FORECAST];   //!< min temperature
@@ -116,26 +121,40 @@ protected:
       winddir           = root["current"]["wind_deg"].as<float>();
       windspeed         = root["current"]["wind_speed"].as<float>();
 
+      JsonArray hourly_list = root["hourly"];
+      hourlyTime[0] = LocalTime(root["current"]["dt"].as<int>());
+      hourlyMaxTemp[0] = root["current"]["temp"].as<float>();
+      hourlyMain[0] = root["current"]["weather"][0]["main"].as<char *>();
+      hourlyIcon[0] = root["current"]["weather"][0]["icon"].as<char *>();
+      for (int i = 1; i < MAX_HOURLY; i++) {
+          if (i < hourly_list.size()) {
+              hourlyTime[i] = LocalTime(hourly_list[i - 1]["dt"].as<int>());
+              hourlyMaxTemp[i] = hourly_list[i - 1]["temp"].as<float>();
+              hourlyMain[i] = hourly_list[i - 1]["weather"][0]["main"].as<char *>();
+              hourlyIcon[i] = hourly_list[i - 1]["weather"][0]["icon"].as<char *>();
+          }
+      }
+
       JsonArray daily_list = root["daily"];
       for (int i = 0; i < MAX_FORECAST; i++) {
-         if (i < daily_list.size()) {
-            dailyTime[i]    = LocalTime(daily_list[i]["dt"].as<int>());
-            dailyMaxTemp[i] = daily_list[i]["temp"]["max"].as<float>();
-            dailyMain[i]    = daily_list[i]["weather"][0]["main"].as<char *>();
-            dailyIcon[i]    = daily_list[i]["weather"][0]["icon"].as<char *>();
+          if (i < daily_list.size()) {
+              dailyTime[i] = LocalTime(daily_list[i]["dt"].as<int>());
+              dailyMaxTemp[i] = daily_list[i]["temp"]["max"].as<float>();
+              dailyMain[i] = daily_list[i]["weather"][0]["main"].as<char *>();
+              dailyIcon[i] = daily_list[i]["weather"][0]["icon"].as<char *>();
 
-            forecastMaxTemp[i]  = daily_list[i]["temp"]["max"].as<float>();
-            forecastMinTemp[i]  = daily_list[i]["temp"]["min"].as<float>();
-            forecastRain[i]     = daily_list[i]["rain"].as<float>();
-            forecastHumidity[i] = daily_list[i]["humidity"].as<float>();
-            forecastWind[i] = daily_list[i]["wind_speed"].as<float>();
-            forecastWindGust[i] = daily_list[i]["wind_gust"].as<float>();
-            if (forecastRain[i] > maxRain) {
-               maxRain = forecastRain[i];
-            }
-         }
+              forecastMaxTemp[i] = daily_list[i]["temp"]["max"].as<float>();
+              forecastMinTemp[i] = daily_list[i]["temp"]["min"].as<float>();
+              forecastRain[i] = daily_list[i]["rain"].as<float>();
+              forecastHumidity[i] = daily_list[i]["humidity"].as<float>();
+              forecastWind[i] = daily_list[i]["wind_speed"].as<float>();
+              forecastWindGust[i] = daily_list[i]["wind_gust"].as<float>();
+              if (forecastRain[i] > maxRain) {
+                  maxRain = forecastRain[i];
+              }
+          }
       }
-          
+
       return true;
    }
 

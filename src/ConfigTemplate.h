@@ -27,6 +27,7 @@
 #define OPENWEATHER_SRV  "api.openweathermap.org"
 #define OPENWEATHER_PORT 80
 #define OPENWEATHER_API  "your openweathermap api key"
+#define DAILY_DISPLAY    // comment to enable hourly display
 
 #define WIFI_SSID        "your wifi ssid"
 #define WIFI_PW          "your wifi password" 
