@@ -21,22 +21,31 @@
   */
 #pragma once
 #include <WiFi.h>
+#include <WiFiMulti.h>
 
 /* Start and connect to the wifi */
 bool StartWiFi(int &rssi) 
 {
    IPAddress dns(8, 8, 8, 8); // Google DNS
-   
+
+   WiFiMulti wifiMulti;
+
    WiFi.mode(WIFI_STA);
    WiFi.disconnect();
    WiFi.setAutoConnect(true);
    WiFi.setAutoReconnect(true);
 
-   Serial.print("Connecting to ");
-   Serial.println(WIFI_SSID);
-   delay(100);
-   
-   WiFi.begin(WIFI_SSID, WIFI_PW);
+/* add AP's here with AP Name, AP Password pairs */
+   wifiMulti.addAP("WiFiAP_1", "WiFiAP_PW_1");
+   wifiMulti.addAP("WiFiAP_2", "WiFiAP_PW_2");
+   wifiMulti.addAP("WiFiAP_3", "WiFiAP_PW_3");
+/* etc. etc. */
+
+   Serial.println("Connecting WiFi...");
+   if(wifiMulti.run() == WL_CONNECTED) {
+      Serial.print("Connected to ");
+      Serial.println(WiFi.SSID());
+   }
 
    for (int retry = 0; WiFi.status() != WL_CONNECTED && retry < 30; retry++) {
       delay(500);
