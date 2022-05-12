@@ -28,3 +28,33 @@
 #define OPENWEATHER_PORT 80
 #define OPENWEATHER_API  "your openweathermap api key"
 #define DAILY_DISPLAY    // comment to enable hourly display
+
+/* Define up to 10 Access Points here */
+#define WIFI_SSID0       "your wifi ssid"
+#define WIFI_SSID0_PWD       "your wifi pwd"
+#define WIFI_SSID1       "your wifi ssid"
+#define WIFI_SSID1_PWD       "your wifi pwd"
+/* #define WIFI_SSID2       "your wifi ssid"
+#define WIFI_SSID2_PWD       "your wifi pwd"
+#define WIFI_SSID3       "your wifi ssid"
+#define WIFI_SSID3_PWD       "your wifi pwd"
+#define WIFI_SSID4       "your wifi ssid"
+#define WIFI_SSID4_PWD       "your wifi pwd"
+#define WIFI_SSID5       "your wifi ssid"
+#define WIFI_SSID5_PWD       "your wifi pwd"
+#define WIFI_SSID6       "your wifi ssid"
+#define WIFI_SSID6_PWD       "your wifi pwd"
+#define WIFI_SSID7       "your wifi ssid"
+#define WIFI_SSID7_PWD       "your wifi pwd"
+#define WIFI_SSID8       "your wifi ssid"
+#define WIFI_SSID8_PWD       "your wifi pwd"
+#define WIFI_SSID9       "your wifi ssid"
+#define WIFI_SSID9_PWD       "your wifi pwd"
+*/
+/* ... etc */
+
+/* Choose which data you want shown in the top left corner of the screen
+    0 - WiFi AP name
+    1 - BTC/USD
+*/
+#define DISPLAY_TOPLEFT 1
