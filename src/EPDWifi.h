@@ -21,22 +21,57 @@
   */
 #pragma once
 #include <WiFi.h>
+#include <WiFiMulti.h>
 
 /* Start and connect to the wifi */
 bool StartWiFi(int &rssi) 
 {
    IPAddress dns(8, 8, 8, 8); // Google DNS
-   
+
+   WiFiMulti wifiMulti;
+
    WiFi.mode(WIFI_STA);
    WiFi.disconnect();
    WiFi.setAutoConnect(true);
    WiFi.setAutoReconnect(true);
 
-   Serial.print("Connecting to ");
-   Serial.println(WIFI_SSID);
-   delay(100);
+/* add AP's here with AP Name, AP Password pairs */
+   #ifdef WIFI_SSID0
+   wifiMulti.addAP(WIFI_SSID0 , WIFI_SSID0_PWD);
+   #endif
+   #ifdef WIFI_SSID1 
+   wifiMulti.addAP(WIFI_SSID1 , WIFI_SSID1_PWD);
+   #endif
+   #ifdef WIFI_SSID2
+   wifiMulti.addAP(WIFI_SSID2 , WIFI_SSID2_PWD);
+   #endif
+   #ifdef WIFI_SSID3
+   wifiMulti.addAP(WIFI_SSID3 , WIFI_SSID3_PWD);
+   #endif
+   #ifdef WIFI_SSID4
+   wifiMulti.addAP(WIFI_SSID4 , WIFI_SSID4_PWD);
+   #endif
+   #ifdef WIFI_SSID5
+   wifiMulti.addAP(WIFI_SSID5 , WIFI_SSID5_PWD);
+   #endif
+   #ifdef WIFI_SSID6
+   wifiMulti.addAP(WIFI_SSID6 , WIFI_SSID6_PWD);
+   #endif
+   #ifdef WIFI_SSID7
+   wifiMulti.addAP(WIFI_SSID7 , WIFI_SSID7_PWD);
+   #endif
+   #ifdef WIFI_SSID8
+   wifiMulti.addAP(WIFI_SSID8 , WIFI_SSID8_PWD);
+   #endif
+   #ifdef WIFI_SSID9
+   wifiMulti.addAP(WIFI_SSID9 , WIFI_SSID9_PWD);
+   #endif
    
-   WiFi.begin(WIFI_SSID, WIFI_PW);
+   Serial.println("Connecting WiFi...");
+   if(wifiMulti.run() == WL_CONNECTED) {
+      Serial.print("Connected to ");
+      Serial.println(WiFi.SSID());
+   }
 
    for (int retry = 0; WiFi.status() != WL_CONNECTED && retry < 30; retry++) {
       delay(500);
