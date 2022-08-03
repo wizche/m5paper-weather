@@ -146,11 +146,14 @@ float getBtcValue()
    }
 }
 
-/* Draw a the head with version, city, rssi and battery */
+/* Draw a the head with AP Name, city, rssi and battery */
 void WeatherDisplay::DrawHead()
 {
-
-   canvas.drawString("BTC/USD " + String(getBtcValue()), 20, 10);
+   if (DISPLAY_TOPLEFT == 1) {
+      canvas.drawString("BTC/USD " + String(getBtcValue()), 20, 10);
+   } else {
+      canvas.drawString("AP:" + WiFi.SSID(), 20, 10);
+   }
    canvas.drawCentreString(CITY_NAME, maxX / 2, 10, 1);
    canvas.drawString(WifiGetRssiAsQuality(myData.wifiRSSI) + "%", maxX - 200, 10);
    DrawRSSI(maxX - 155, 25);
